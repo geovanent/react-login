@@ -23,7 +23,7 @@ export default class UserInput extends Component {
   }
 
   getValor(){
-      return('25') 
+      return 25
   }
 }
 

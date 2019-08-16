@@ -35,12 +35,12 @@ export default class ButtonSubmit extends Component {
   }
 
   _onPress() {
-    Alert.alert('ok', UserInput.getValor)
+    // Alert.alert('ok', UserInput.getValor() )
     let estado = this.state
     if (this.state.isLoading) return;
 
     // Consome os dados da api
-    const URL_TO_FETCH = 'https://api.github.com/users/geovanent';
+    const URL_TO_FETCH = 'https://api.github.com/users/geovanen';
     fetch(URL_TO_FETCH, {
       method: 'GET' // opcional 
     })
