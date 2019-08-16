@@ -22,7 +22,7 @@ const MARGIN = 40;
 
 export default class ButtonSubmit extends Component {
   constructor(props) {
-    super();
+    super(props);
 
     this.state = {
       isLoading: false,
@@ -34,8 +34,10 @@ export default class ButtonSubmit extends Component {
     this._onPress = this._onPress.bind(this);
   }
 
+
   _onPress() {
-    // Alert.alert('ok', UserInput.getValor() )
+    let teste = () => {UserInput.getValue()}
+    Alert.alert('ok', teste )
     let estado = this.state
     if (this.state.isLoading) return;
 

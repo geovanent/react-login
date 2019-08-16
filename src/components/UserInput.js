@@ -4,6 +4,22 @@ import Dimensions from 'Dimensions';
 import {StyleSheet, View, TextInput, Image} from 'react-native';
 
 export default class UserInput extends Component {
+  constructor(props){
+    super(props)
+
+
+    this.state = {
+      InputLogin: 'Test String'
+    }
+
+    this.getValue = this.getValue.bind(this);
+  }
+
+  getValue(){
+    //console.log(this.state.sampleString);
+    return this.state.InputLogin
+  }
+
   render() {
     return (
       <View style={styles.inputWrapper}>
