@@ -14,6 +14,7 @@ import {
 import {Actions, ActionConst} from 'react-native-router-flux';
 
 import spinner from '../images/loading.gif';
+import UserInput from './UserInput'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
@@ -34,11 +35,12 @@ export default class ButtonSubmit extends Component {
   }
 
   _onPress() {
+    Alert.alert('ok', UserInput.getValor)
     let estado = this.state
     if (this.state.isLoading) return;
 
     // Consome os dados da api
-    const URL_TO_FETCH = 'https://api.github.com/users/geovanen';
+    const URL_TO_FETCH = 'https://api.github.com/users/geovanent';
     fetch(URL_TO_FETCH, {
       method: 'GET' // opcional 
     })

@@ -21,6 +21,10 @@ export default class UserInput extends Component {
       </View>
     );
   }
+
+  getValor(){
+      return('25') 
+  }
 }
 
 UserInput.propTypes = {
