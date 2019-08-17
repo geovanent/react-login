@@ -35,27 +35,29 @@ export default class ButtonSubmit extends Component {
   }
 
 
-  _onPress() {
-    let teste = () => {UserInput.getValue()}
-    Alert.alert('ok', teste )
-    let estado = this.state
+  _onPress(data) {
     if (this.state.isLoading) return;
-
+    this.props.onPress(data);
+    let estado = this.state
     // Consome os dados da api
-    const URL_TO_FETCH = 'https://api.github.com/users/geovanen';
+    const URL_TO_FETCH = `https://api.github.com/users/${this.props.user}`;
+    Alert.alert('Agora vai!!', `${this.props.user}:${this.props.password}\n${URL_TO_FETCH}`)
+
     fetch(URL_TO_FETCH, {
       method: 'GET' // opcional 
     })
     .then(function(response) { 
       response.json().then((data) => {
-        if(data.login == 'geovanent'){
-          estado.isLogged = true
+        Alert.alert('Comparação', `${data.login}:${this.props.user}`)
+        if(data.login == this.props.user){
+          this.setState({isLogged: true})
         }
         // Alert.alert('msg', `${data.login}`)
         // this.setState({isLogged: true})
       });
     })
     .catch(function(err) { 
+      Alert.alert('Erro na requisição', err)
       console.error(err); 
     });
     // end Consome API
@@ -68,16 +70,16 @@ export default class ButtonSubmit extends Component {
     }).start();
 
     setTimeout(() => {
-      if(estado.isLogged){
+      if(this.state.isLogged){
         this._onGrow();
       }
     }, 2000);
 
     setTimeout(() => {
-      if(estado.isLogged){
+      if(this.state.isLogged){
         Actions.secondScreen();
       }else{
-        Alert.alert('Alerta', 'Login Invalido')
+        // Alert.alert('Alerta', 'Login Invalido')
       }
       this.setState({isLoading: false});
       this.buttonAnimated.setValue(0);
@@ -124,6 +126,12 @@ export default class ButtonSubmit extends Component {
     );
   }
 }
+
+ButtonSubmit.propTypes = {
+  isLoading: PropTypes.bool,
+  isLogged: PropTypes.bool,
+};
+
 
 const styles = StyleSheet.create({
   container: {

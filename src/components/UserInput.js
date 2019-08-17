@@ -15,6 +15,10 @@ export default class UserInput extends Component {
     this.getValue = this.getValue.bind(this);
   }
 
+  onChange(data) {
+    this.props.onChange(data);
+  }
+
   getValue(){
     //console.log(this.state.sampleString);
     return this.state.InputLogin
@@ -33,6 +37,7 @@ export default class UserInput extends Component {
           returnKeyType={this.props.returnKeyType}
           placeholderTextColor="white"
           underlineColorAndroid="transparent"
+          onChangeText={(text) => this.onChange({text})}
         />
       </View>
     );

@@ -35,6 +35,14 @@ export default class Form extends Component {
       : this.setState({showPass: true, press: false});
   }
 
+  updateUser(data) {
+    this.props.onChangeUser(data);
+  }
+
+  updatePassword(data){
+    this.props.onChangePassword(data);
+  }
+
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -44,6 +52,7 @@ export default class Form extends Component {
           autoCapitalize={'none'}
           returnKeyType={'next'}
           autoCorrect={false}
+          onChange={this.updateUser.bind(this)}
         />
         <View style={styles.inputWrapper}>
           <UserInput
@@ -53,6 +62,7 @@ export default class Form extends Component {
             returnKeyType={'done'}
             autoCapitalize={'none'}
             autoCorrect={false}
+            onChange={this.updatePassword.bind(this)}
           />
           <TouchableOpacity
             activeOpacity={0.7}
@@ -77,10 +87,10 @@ const styles = StyleSheet.create({
   btnEye: {
     position: 'absolute',
     zIndex: 99,
-    width: 22,
-    height: 22,
+    width: 25,
+    height: 25,
     left: DEVICE_WIDTH - 60,
-    top: 9,
+    top: 7,
   },
   iconEye: {
     width: 25,
