@@ -15,7 +15,10 @@ export default class LoginScreen extends Component {
     this.state = {
       user: "",
       password: "",
+      isLogged: false,
     };
+
+    this.onButtonSubmit = this.onButtonSubmit.bind(this)
   }
 
   updateUser(data) {
@@ -26,8 +29,21 @@ export default class LoginScreen extends Component {
     this.setState({password: data.text});
   }
 
-  onButtonSubmit(data) {
-    //Faz nada
+  async onButtonSubmit(data) {
+    // Consome os dados da api
+    const response_dados = await fetch(`https://api.github.com/users/${this.state.user}`);
+    // Alert.alert('Agora vai!!', `${this.props.user}:${this.props.password}\n${URL_TO_FETCH}`)
+    
+    // Transforma os dados recebidos pela API em json
+    const json_data = await response_dados.json();
+
+    // Alert.alert('Comparação', `${json_data.login}:${this.props.user}`)
+    
+    // Verifica se os dados recebidos da API equivale alguma coisa então mude o estado do componente
+    if(json_data.login == this.state.user){
+      this.setState({isLogged: true})
+    }
+    // end Consome API
   }
 
   render() {
@@ -40,9 +56,10 @@ export default class LoginScreen extends Component {
         />
         <SignupSection />
         <ButtonSubmit 
-          onPress={this.onButtonSubmit.bind(this)}
+          onPress={this.onButtonSubmit}
           user={this.state.user}
           password={this.state.password}
+          logado={this.state.isLogged}
         />
       </Wallpaper>
     );

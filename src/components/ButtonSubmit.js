@@ -35,25 +35,13 @@ export default class ButtonSubmit extends Component {
   }
 
 
-  async _onPress(data) {
+  _onPress(data) {
+    this.setState({isLogged: this.props.logado});
     if (this.state.isLoading) return;
     this.props.onPress(data);
-    let estado = this.state
-    // Consome os dados da api
-    const response_dados = await fetch(`https://api.github.com/users/${this.props.user}`);
-    // Alert.alert('Agora vai!!', `${this.props.user}:${this.props.password}\n${URL_TO_FETCH}`)
     
-    // Transforma os dados recebidos pela API em json
-    const json_data = await response_dados.json();
-
-    Alert.alert('Comparação', `${json_data.login}:${this.props.user}`)
     
-    // Verifica se os dados recebidos da API equivale alguma coisa então mude o estado do componente
-    if(json_data.login == this.props.user){
-      this.setState({isLogged: true})
-    }
-    // end Consome API
-    
+    // Começa rodar o botão
     this.setState({isLoading: true});
     Animated.timing(this.buttonAnimated, {
       toValue: 1,
@@ -71,7 +59,7 @@ export default class ButtonSubmit extends Component {
       if(this.state.isLogged){
         Actions.secondScreen();
       }else{
-        // Alert.alert('Alerta', 'Login Invalido')
+        Alert.alert('Alerta', 'Login Invalido')
       }
       this.setState({isLoading: false});
       this.buttonAnimated.setValue(0);
