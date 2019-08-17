@@ -35,31 +35,23 @@ export default class ButtonSubmit extends Component {
   }
 
 
-  _onPress(data) {
+  async _onPress(data) {
     if (this.state.isLoading) return;
     this.props.onPress(data);
     let estado = this.state
     // Consome os dados da api
-    const URL_TO_FETCH = `https://api.github.com/users/${this.props.user}`;
-    Alert.alert('Agora vai!!', `${this.props.user}:${this.props.password}\n${URL_TO_FETCH}`)
+    const response_dados = await fetch(`https://api.github.com/users/${this.props.user}`);
+    // Alert.alert('Agora vai!!', `${this.props.user}:${this.props.password}\n${URL_TO_FETCH}`)
+    
+    // Transforma os dados recebidos pela API em json
+    const json_data = await response_dados.json();
 
-    fetch(URL_TO_FETCH, {
-      method: 'GET' // opcional 
-    })
-    .then(function(response) { 
-      response.json().then((data) => {
-        Alert.alert('Comparação', `${data.login}:${this.props.user}`)
-        if(data.login == this.props.user){
-          this.setState({isLogged: true})
-        }
-        // Alert.alert('msg', `${data.login}`)
-        // this.setState({isLogged: true})
-      });
-    })
-    .catch(function(err) { 
-      Alert.alert('Erro na requisição', err)
-      console.error(err); 
-    });
+    Alert.alert('Comparação', `${json_data.login}:${this.props.user}`)
+    
+    // Verifica se os dados recebidos da API equivale alguma coisa então mude o estado do componente
+    if(json_data.login == this.props.user){
+      this.setState({isLogged: true})
+    }
     // end Consome API
     
     this.setState({isLoading: true});
