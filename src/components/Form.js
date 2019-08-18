@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import Dimensions from 'Dimensions';
 import {
   StyleSheet,
   KeyboardAvoidingView,
   View,
-  ActivityIndicator,
   TouchableOpacity,
   Image,
 } from 'react-native';
 
 import UserInput from './UserInput';
-import ButtonSubmit from './ButtonSubmit';
-import SignupSection from './SignupSection';
 
 import usernameImg from '../images/username.png';
 import passwordImg from '../images/password.png';
@@ -53,6 +49,7 @@ export default class Form extends Component {
           returnKeyType={'next'}
           autoCorrect={false}
           onChange={this.updateUser.bind(this)}
+          onSubmitEditing={() => this.passwordRef.focus()}
         />
         <View style={styles.inputWrapper}>
           <UserInput
@@ -63,6 +60,8 @@ export default class Form extends Component {
             autoCapitalize={'none'}
             autoCorrect={false}
             onChange={this.updatePassword.bind(this)}
+            ref={ref => this.passwordRef = ref}
+            onSubmitEditing={this.props.onSubmitEditing}
           />
           <TouchableOpacity
             activeOpacity={0.7}

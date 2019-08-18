@@ -8,13 +8,10 @@ import {
   Animated,
   Easing,
   Image,
-  Alert,
   View,
 } from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
 
 import spinner from '../images/loading.gif';
-import UserInput from './UserInput'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('window').height;
@@ -26,7 +23,6 @@ export default class ButtonSubmit extends Component {
 
     this.state = {
       isLoading: false,
-      isLogged: false,
     };
 
     this.buttonAnimated = new Animated.Value(0);
@@ -34,37 +30,30 @@ export default class ButtonSubmit extends Component {
     this._onPress = this._onPress.bind(this);
   }
 
-
   _onPress(data) {
-    this.setState({isLogged: this.props.logado});
     if (this.state.isLoading) return;
     this.props.onPress(data);
-    
-    
-    // Começa rodar o botão
-    this.setState({isLoading: true});
-    Animated.timing(this.buttonAnimated, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear,
-    }).start();
+  }
 
-    setTimeout(() => {
-      if(this.state.isLogged){
-        this._onGrow();
-      }
-    }, 2000);
-
-    setTimeout(() => {
-      if(this.state.isLogged){
-        Actions.secondScreen();
-      }else{
-        Alert.alert('Alerta', 'Login Invalido')
-      }
-      this.setState({isLoading: false});
+  loadingEffect(activate) {
+    this.setState({isLoading: activate});
+    if(activate) {
+      Animated.timing(this.buttonAnimated, {
+        toValue: 1,
+        duration: 200,
+        easing: Easing.linear,
+      }).start();
+    } else {
       this.buttonAnimated.setValue(0);
+    }
+  }
+
+  growEffect(activate) {
+    if(activate){
+      this._onGrow();
+    } else {
       this.growAnimated.setValue(0);
-    }, 2300);
+    }
   }
 
   _onGrow() {
@@ -95,7 +84,7 @@ export default class ButtonSubmit extends Component {
             {this.state.isLoading ? (
               <Image source={spinner} style={styles.image} />
             ) : (
-              <Text style={styles.text}>LOGIN</Text>
+            <Text style={styles.text}>{this.props.submitText}</Text>
             )}
           </TouchableOpacity>
           <Animated.View
@@ -108,8 +97,7 @@ export default class ButtonSubmit extends Component {
 }
 
 ButtonSubmit.propTypes = {
-  isLoading: PropTypes.bool,
-  isLogged: PropTypes.bool,
+  submitText: PropTypes.string,
 };
 
 

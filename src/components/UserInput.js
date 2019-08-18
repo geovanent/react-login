@@ -24,17 +24,23 @@ export default class UserInput extends Component {
     return this.state.InputLogin
   }
 
+  focus() {
+    this.inputText.focus();
+  }
+
   render() {
     return (
       <View style={styles.inputWrapper}>
         <Image source={this.props.source} style={styles.inlineImg} />
         <TextInput
+          ref={ref => this.inputText = ref}
           style={styles.input}
           placeholder={this.props.placeholder}
           secureTextEntry={this.props.secureTextEntry}
           autoCorrect={this.props.autoCorrect}
           autoCapitalize={this.props.autoCapitalize}
           returnKeyType={this.props.returnKeyType}
+          onSubmitEditing={this.props.onSubmitEditing}
           placeholderTextColor="white"
           underlineColorAndroid="transparent"
           onChangeText={(text) => this.onChange({text})}
