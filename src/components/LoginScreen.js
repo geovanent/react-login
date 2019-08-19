@@ -4,7 +4,7 @@ import Form from './Form';
 import Wallpaper from './Wallpaper';
 import ButtonSubmit from './ButtonSubmit';
 import SignupSection from './SignupSection';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export default class LoginScreen extends Component {
   constructor(){
@@ -13,6 +13,8 @@ export default class LoginScreen extends Component {
       user: "",
       password: "",
       isLogged: false,
+      isLoading: false,
+      isGrowing: false,
       submitText: 'LOGIN'
     };
 
@@ -29,7 +31,7 @@ export default class LoginScreen extends Component {
 
   async onButtonSubmit(data) {
     //Inicia o efeito de loading no botão
-    this.refs.submitButton.loadingEffect(true);
+    this.setState({isLoading: true, isGrowing: false})
 
     // Consome os dados da api
     const response_dados = await fetch(`https://api.github.com/users/${this.state.user}`);
@@ -42,14 +44,14 @@ export default class LoginScreen extends Component {
     // Verifica se os dados recebidos da API equivale alguma coisa então mude o estado do componente
     this.setState({isLogged: (json_data.login == this.state.user)});
     if(json_data.login == this.state.user) {
-      this.refs.submitButton.growEffect(true);
+      this.setState({isGrowing: true})
       setTimeout(() => {
-        this.refs.submitButton.growEffect(false);
-        this.refs.submitButton.loadingEffect(false);
+        this.setState({isGrowing: false})
+        this.setState({isLoading: false})
         Actions.secondScreen();
       }, 500);
     } else {
-      this.refs.submitButton.loadingEffect(false);
+      this.setState({isLoading: false, isGrowing: false})
       this.setState({submitText: 'Falha no login'});
       setTimeout(() => {
         this.setState({submitText: 'LOGIN'});
@@ -69,8 +71,9 @@ export default class LoginScreen extends Component {
         />
         <SignupSection />
         <ButtonSubmit
-          ref='submitButton'
           submitText={this.state.submitText}
+          isGrowing={this.state.isGrowing}
+          isLoading={this.state.isLoading}
           onPress={this.onButtonSubmit}
         />
       </Wallpaper>

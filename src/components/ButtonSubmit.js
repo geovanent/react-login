@@ -21,17 +21,23 @@ export default class ButtonSubmit extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isLoading: false,
-    };
-
     this.buttonAnimated = new Animated.Value(0);
     this.growAnimated = new Animated.Value(0);
     this._onPress = this._onPress.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.isGrowing !== prevProps.isGrowing) {
+      this.growEffect(this.props.isGrowing);
+    }
+    if (this.props.isLoading !== prevProps.isLoading) {
+      this.loadingEffect(this.props.isLoading);
+    }
+  }
+
   _onPress(data) {
-    if (this.state.isLoading) return;
+    if (this.props.isLoading) return;
     this.props.onPress(data);
   }
 
@@ -81,10 +87,10 @@ export default class ButtonSubmit extends Component {
             style={styles.button}
             onPress={this._onPress}
             activeOpacity={1}>
-            {this.state.isLoading ? (
+            {this.props.isLoading ? (
               <Image source={spinner} style={styles.image} />
             ) : (
-            <Text style={styles.text}>{this.props.submitText}</Text>
+              <Text style={styles.text}>{this.props.submitText}</Text>
             )}
           </TouchableOpacity>
           <Animated.View
@@ -98,6 +104,8 @@ export default class ButtonSubmit extends Component {
 
 ButtonSubmit.propTypes = {
   submitText: PropTypes.string,
+  isLoading: PropTypes.bool,
+  isGrowing: PropTypes.bool,
 };
 
 
