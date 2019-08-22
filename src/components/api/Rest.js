@@ -36,7 +36,7 @@ class Rest {
   createBasicCRUDEndpoints( { path } ) {
     var endpoints = {}
 
-    const resourceURL = `${this.url}/${path}`
+    const resourceURL = `${this.url}${path}`
 
     endpoints.getAll = ({ params={}}, config={} ) => axios.get(resourceURL, { params }, config)
 

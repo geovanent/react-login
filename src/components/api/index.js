@@ -1,13 +1,14 @@
 import Rest from './Rest';
-const api = new Rest({ url:'https://randomuser.me' })
 
 export default class Api {
-    constructor() {
+    constructor({ baseUrl }) {
         //Init Paths
-        api.createEntity({name: 'user', path: '/api'});
+        //'https://randomuser.me'
+        this.api = new Rest({ url: baseUrl })
+        this.api.createEntity({name: 'user', path: '/users?delay=5'});
     }
 
-    getCharacters() {
-        return api.endpoints.characters.getAll();
+    getProfile() {
+        return this.api.endpoints.user.getAll({});
     }
 }
