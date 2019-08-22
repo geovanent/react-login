@@ -1,10 +1,10 @@
 {
-  "expoServerNgrokUrl": "https://n5-va7.helberhlm.react-login.exp.direct",
-  "packagerNgrokUrl": "https://packager.n5-va7.helberhlm.react-login.exp.direct",
-  "ngrokPid": 11948,
-  "expoServerPort": 19000,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "expoServerPort": null,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 20796,
+  "packagerPort": null,
+  "packagerPid": null,
   "webpackServerPort": null
 }
