@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import Dimensions from 'Dimensions';
 import {
   StyleSheet,
   View,
@@ -14,15 +14,14 @@ import {
 import {Actions, ActionConst} from 'react-native-router-flux';
 import Api from './api';
 import arrowImg from '../images/left-arrow.png';
-import { bold } from 'ansi-colors';
-// import console = require('console');
 
 const SIZE = 40;
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default class SecondScreen extends Component {
   constructor() {
     super();
-
+    this.api = new Api({baseUrl: 'https://reqres.in/api'});
     this.state = {
       isLoading: true,
       userList: [],
@@ -36,9 +35,9 @@ export default class SecondScreen extends Component {
     //Have a try and catch block for catching errors.
     // try {
         //Assign the promise unresolved first then get the data using the json method. 
-        api = new Api({baseUrl: 'https://reqres.in/api'});
+        
         this.setState({isLoading: true});
-        api.getProfile()
+        this.api.getProfile()
           .then(({ data }) => {
             // console.log('data -> ', data);
             this.setState({userList: data, isLoading: false});
@@ -69,9 +68,8 @@ export default class SecondScreen extends Component {
                   <View  style={styles.listItemContainer}>
                     <Image source={{uri: data.item.avatar}} 
                                 style={styles.pokeImage}/>
-                    <View style={{padding:5}}>
+                    <View style={{paddingLeft:20}}>
                       <Text style={[styles.pokeItemHeader, {fontSize: 15}]}>{data.item.first_name} {data.item.last_name}</Text>
-                      <Text style={styles.pokeItemHeader}>{data.item.email}</Text>
                       <Text style={styles.pokeItemHeader}>{data.item.email}</Text>
                     </View>
                   </View>
@@ -87,12 +85,13 @@ export default class SecondScreen extends Component {
     if(!isLoading) {
       return (
       <View style={styles.container}>
-        <FlatList 
+        <FlatList
+          style={{width: DEVICE_WIDTH}}
           data={userList.data}
           renderItem={this.renderItem}
           keyExtractor={(item) => item.id.toString()} 
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={this._onPress}
           style={styles.button}
           activeOpacity={1}>
@@ -100,11 +99,13 @@ export default class SecondScreen extends Component {
         </TouchableOpacity>
         <Animated.View
           style={[styles.circle, {transform: [{scale: changeScale}]}]}
-        />
+        /> */}
       </View>
       );
     } else {
-      return <ActivityIndicator />
+      return <View style={styles.loadingContainer}>
+        <ActivityIndicator color={'blue'} size={100}/>
+      </View>
     }
   }
 }
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   button: {
     alignItems: 'center',
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderBottomWidth: 2,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     padding: 20
   },
   pokeItemHeader: {
@@ -150,7 +151,12 @@ const styles = StyleSheet.create({
   },
   pokeImage: {
       backgroundColor: 'transparent',
+      borderRadius: 100,
       height: 50,
       width: 50
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center'
   }
 });
