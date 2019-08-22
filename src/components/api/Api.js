@@ -5,7 +5,7 @@ export default class Api {
         //Init Paths
         //'https://randomuser.me'
         this.api = new Rest({ url: baseUrl })
-        this.api.createEntity({name: 'user', path: '/users?delay=2&per_page=12'});
+        this.api.createEntity({name: 'user', path: '/users?per_page=12'});
     }
 
     getProfile() {

@@ -8,9 +8,13 @@ import {
   ActivityIndicator,
   Animated,
   FlatList,
-  Text,
+  // Text,
   Easing,
 } from 'react-native';
+
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+
+
 import {Actions, ActionConst} from 'react-native-router-flux';
 import Api from './api';
 import arrowImg from '../images/left-arrow.png';
@@ -64,16 +68,49 @@ export default class SecondScreen extends Component {
   }
 
   renderItem(data) {
-      return <TouchableOpacity style={{backgroundColor: 'transparent'}}>
-                  <View  style={styles.listItemContainer}>
-                    <Image source={{uri: data.item.avatar}} 
-                                style={styles.pokeImage}/>
-                    <View style={{paddingLeft:20}}>
-                      <Text style={[styles.pokeItemHeader, {fontSize: 15}]}>{data.item.first_name} {data.item.last_name}</Text>
-                      <Text style={styles.pokeItemHeader}>{data.item.email}</Text>
-                    </View>
-                  </View>
-              </TouchableOpacity>
+      return (
+          <Card>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{uri: data.item.avatar}} />
+                <Body>
+                  <Text>{data.item.first_name} {data.item.last_name}</Text>
+                  <Text note>{data.item.email}</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem cardBody>
+              <Image source={{uri: data.item.avatar}} style={{height: 200, width: null, flex: 1}}/>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Button transparent>
+                  <Icon active name="thumbs-up" />
+                  <Text>12 Likes</Text>
+                </Button>
+              </Left>
+              <Body>
+                <Button transparent>
+                  <Icon active name="chatbubbles" />
+                  <Text>4 Comments</Text>
+                </Button>
+              </Body>
+              <Right>
+                <Text>11h ago</Text>
+              </Right>
+            </CardItem>
+          </Card>
+    );
+      // <TouchableOpacity style={{backgroundColor: 'transparent'}}>
+      //             <View  style={styles.listItemContainer}>
+      //               <Image source={{uri: data.item.avatar}} 
+      //                           style={styles.pokeImage}/>
+      //               <View style={{paddingLeft:20}}>
+      //                 <Text style={[styles.pokeItemHeader, {fontSize: 15}]}>{data.item.first_name} {data.item.last_name}</Text>
+      //                 <Text style={styles.pokeItemHeader}>{data.item.email}</Text>
+      //               </View>
+      //             </View>
+      //         </TouchableOpacity>
   }
 
   render() {
